@@ -56,11 +56,9 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // --- आपकी फोटो की "डायरी" या "डेटाबेस" ---
-        // नई फोटो जोड़ने के लिए, बस यहाँ एक नई लाइन जोड़ें।
         const photoData = [
             // format: { id: 'file_name_without_jpg', title: 'Photo Title', extra_link: 'your_ad_link' }
-            { id: 'image001', title: 'Krishna Wallpaper', extra_link: 'https://otieu.com/4/9549433' },
+            { id: 'image001', title: 'Krishna Wallpaper', extra_link: 'https://www.facebook.com/share/p/16vHu5CWjK/' },
             { id: 'image002', title: 'Krishna with Flute', extra_link: 'https://otieu.com/4/9549432' },
             { id: 'image003', title: 'Abstract Art', extra_link: 'https://otieu.com/4/9381063' },
             { id: 'image004', title: 'Mountain Landscape', extra_link: 'https://otieu.com/4/9549431' },
@@ -69,28 +67,8 @@
             { id: 'image007', title: 'Calm Ocean Waves', extra_link: 'https://otieu.com/4/9408392' },
             { id: 'image008', title: 'Modern Architecture', extra_link: 'https://otieu.com/4/9534884' },
             { id: 'image009', title: 'Forest Path', extra_link: 'https://otieu.com/4/9534885' },
-            { id: 'image010', title: 'Ganesh Ji Blessing', extra_link: 'https://otieu.com/4/9534886' },
+            { id: 'image010', title: 'Ganesh Ji Blessing', extra_link: 'https://otieu.com/4/9534886' }
             // Add more photos here...
-            { id: 'image011', title: 'Colorful Abstract Painting', extra_link: 'https://otieu.com/4/9549433' },
-            { id: 'image012', title: 'Desert Sunset', extra_link: 'https://otieu.com/4/9549432' },
-            { id: 'image013', title: 'Hanuman Ji Flying', extra_link: 'https://otieu.com/4/9381063' },
-            { id: 'image014', title: 'Tokyo Streets', extra_link: 'https://otieu.com/4/9549431' },
-            { id: 'image015', title: 'Minimalist Design', extra_link: 'https://otieu.com/4/9549430' },
-            { id: 'image016', title: 'Winter Wonderland', extra_link: 'https://otieu.com/4/9549429' },
-            { id: 'image017', title: 'Vintage Car', extra_link: 'https://otieu.com/4/9408392' },
-            { id: 'image018', title: 'Galaxy and Stars', extra_link: 'https://otieu.com/4/9534884' },
-            { id: 'image019', title: 'Cute Cat Portrait', extra_link: 'https://otieu.com/4/9534885' },
-            { id: 'image020', title: 'Delicious Food Plating', extra_link: 'https://otieu.com/4/9534886' },
-            { id: 'image021', title: 'Dog Playing in a Field', extra_link: 'https://otieu.com/4/9549433' },
-            { id: 'image022', title: 'Coffee and Books', extra_link: 'https://otieu.com/4/9549432' },
-            { id: 'image023', title: 'The Moon', extra_link: 'https://otieu.com/4/9381063' },
-            { id: 'image024', title: 'Tropical Beach', extra_link: 'https://otieu.com/4/9549431' },
-            { id: 'image025', title: 'Spaghetti Bolognese', extra_link: 'https://otieu.com/4/9549430' },
-            { id: 'image026', title: 'Lion in the Savannah', extra_link: 'https://otieu.com/4/9549429' },
-            { id: 'image027', title: 'Futuristic Cityscape', extra_link: 'https://otieu.com/4/9408392' },
-            { id: 'image028', title: 'Aurora Borealis', extra_link: 'https://otieu.com/4/9534884' },
-            { id: 'image029', title: 'Old Camera', extra_link: 'https://otieu.com/4/9534885' },
-            { id: 'image030', title: 'Nebula in Deep Space', extra_link: 'https://otieu.com/4/9534886' }
         ];
 
         const grid = document.getElementById('photo-grid');
@@ -105,6 +83,25 @@
                 </div>
                 <h3>${photo.title}</h3>`;
             grid.appendChild(card);
+        });
+
+        grid.addEventListener('click', (e) => {
+            const card = e.target.closest('.photo-card');
+            if (card) {
+                const photoId = card.dataset.id;
+                const photo = photoData.find(p => p.id === photoId);
+                
+                if (photo && photo.extra_link) {
+                    const mainLink = `${photo.id}.jpg`;
+                    const timerPageUrl = `redirect.html?main_link=${encodeURIComponent(mainLink)}&extra_link=${encodeURIComponent(photo.extra_link)}`;
+                    window.open(timerPageUrl, '_blank');
+                }
+            }
+        });
+    });
+    </script>
+</body>
+</html>            grid.appendChild(card);
         });
 
         grid.addEventListener('click', (e) => {
