@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+        #background-iframe {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; border: none; z-index: 1;
+        }
+        #timer-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            font-family: sans-serif;
+            text-shadow: 2px 2px 4px #000000;
+        }
+        #timer-overlay h1 { font-size: 28px; }
+        #timer-overlay #timer { font-size: 72px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <iframe id="background-iframe" src=""></iframe>
+    <div id="timer-overlay">
+        <h1>You will be redirected in...</h1>
+        <div id="timer">15</div>
+    </div>
+    <script>
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const mainLink = decodeURIComponent(urlParams.get('main_link'));
+            const extraLink = decodeURIComponent(urlParams.get('extra_link'));
+
+            if (!mainLink || !extraLink) {
+                document.getElementById('timer-overlay').innerHTML = '<h1>Error: Invalid Link.</h1>';
+                return;
+            }
+
+            // Load the "extra link" in the background iframe
+            document.getElementById('background-iframe').src = extraLink;
+
+            let timeLeft = 15;
+            const timerElement = document.getElementById('timer');
+
+            const countdown = setInterval(function() {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    // Redirect to the "main link" (the full-size photo)
+                    window.location.href = mainLink;
+                }
+            }, 1000);
+        };
+    </script>
+</body>
+</html>

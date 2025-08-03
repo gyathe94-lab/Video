@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Videos and Photo Only Fans</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            background-color: #121212;
+            color: #fff;
+        }
+        .header { text-align: center; padding: 20px; background-color: #1a1a1a; border-bottom: 1px solid #333; }
+        .header h1 { margin: 0; font-size: 24px; }
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        .photo-card {
+            background: #212121;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .photo-card:hover { transform: translateY(-5px); }
+        .thumbnail-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Ratio */
+            height: 0;
+            background-color: #333;
+        }
+        .thumbnail-container img {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; object-fit: cover;
+        }
+        .photo-card h3 {
+            font-size: 16px; padding: 15px; margin: 0;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Free Videos and Photo Only Fans</h1>
+    </div>
+    <div id="photo-grid" class="photo-grid">
+        <!-- Photos will be generated here by JavaScript -->
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- आपकी फोटो की "डायरी" या "डेटाबेस" ---
+        // नई फोटो जोड़ने के लिए, बस यहाँ एक नई लाइन जोड़ें।
+        const photoData = [
+            // format: { id: 'file_name_without_jpg', title: 'Photo Title', extra_link: 'your_ad_link' }
+            { id: 'image001', title: 'Krishna Wallpaper', extra_link: 'https://otieu.com/4/9549433' },
+            { id: 'image002', title: 'Krishna with Flute', extra_link: 'https://otieu.com/4/9549432' },
+            { id: 'image003', title: 'Abstract Art', extra_link: 'https://otieu.com/4/9381063' },
+            { id: 'image004', title: 'Mountain Landscape', extra_link: 'https://otieu.com/4/9549431' },
+            { id: 'image005', title: 'City at Night', extra_link: 'https://otieu.com/4/9549430' },
+            { id: 'image006', title: 'Shiv Ji Meditation', extra_link: 'https://otieu.com/4/9549429' },
+            { id: 'image007', title: 'Calm Ocean Waves', extra_link: 'https://otieu.com/4/9408392' },
+            { id: 'image008', title: 'Modern Architecture', extra_link: 'https://otieu.com/4/9534884' },
+            { id: 'image009', title: 'Forest Path', extra_link: 'https://otieu.com/4/9534885' },
+            { id: 'image010', title: 'Ganesh Ji Blessing', extra_link: 'https://otieu.com/4/9534886' },
+            // Add more photos here...
+            { id: 'image011', title: 'Colorful Abstract Painting', extra_link: 'https://otieu.com/4/9549433' },
+            { id: 'image012', title: 'Desert Sunset', extra_link: 'https://otieu.com/4/9549432' },
+            { id: 'image013', title: 'Hanuman Ji Flying', extra_link: 'https://otieu.com/4/9381063' },
+            { id: 'image014', title: 'Tokyo Streets', extra_link: 'https://otieu.com/4/9549431' },
+            { id: 'image015', title: 'Minimalist Design', extra_link: 'https://otieu.com/4/9549430' },
+            { id: 'image016', title: 'Winter Wonderland', extra_link: 'https://otieu.com/4/9549429' },
+            { id: 'image017', title: 'Vintage Car', extra_link: 'https://otieu.com/4/9408392' },
+            { id: 'image018', title: 'Galaxy and Stars', extra_link: 'https://otieu.com/4/9534884' },
+            { id: 'image019', title: 'Cute Cat Portrait', extra_link: 'https://otieu.com/4/9534885' },
+            { id: 'image020', title: 'Delicious Food Plating', extra_link: 'https://otieu.com/4/9534886' },
+            { id: 'image021', title: 'Dog Playing in a Field', extra_link: 'https://otieu.com/4/9549433' },
+            { id: 'image022', title: 'Coffee and Books', extra_link: 'https://otieu.com/4/9549432' },
+            { id: 'image023', title: 'The Moon', extra_link: 'https://otieu.com/4/9381063' },
+            { id: 'image024', title: 'Tropical Beach', extra_link: 'https://otieu.com/4/9549431' },
+            { id: 'image025', title: 'Spaghetti Bolognese', extra_link: 'https://otieu.com/4/9549430' },
+            { id: 'image026', title: 'Lion in the Savannah', extra_link: 'https://otieu.com/4/9549429' },
+            { id: 'image027', title: 'Futuristic Cityscape', extra_link: 'https://otieu.com/4/9408392' },
+            { id: 'image028', title: 'Aurora Borealis', extra_link: 'https://otieu.com/4/9534884' },
+            { id: 'image029', title: 'Old Camera', extra_link: 'https://otieu.com/4/9534885' },
+            { id: 'image030', title: 'Nebula in Deep Space', extra_link: 'https://otieu.com/4/9534886' }
+        ];
+
+        const grid = document.getElementById('photo-grid');
+
+        photoData.forEach(photo => {
+            const card = document.createElement('div');
+            card.className = 'photo-card';
+            card.dataset.id = photo.id;
+            card.innerHTML = `
+                <div class="thumbnail-container">
+                    <img src="${photo.id}.jpg" alt="${photo.title}" loading="lazy">
+                </div>
+                <h3>${photo.title}</h3>`;
+            grid.appendChild(card);
+        });
+
+        grid.addEventListener('click', (e) => {
+            const card = e.target.closest('.photo-card');
+            if (card) {
+                const photoId = card.dataset.id;
+                const photo = photoData.find(p => p.id === photoId);
+                
+                if (photo && photo.extra_link) {
+                    const mainLink = `${photo.id}.jpg`;
+                    
+                    // Create the URL for the timer page
+                    const timerPageUrl = `redirect.html?main_link=${encodeURIComponent(mainLink)}&extra_link=${encodeURIComponent(photo.extra_link)}`;
+                    
+                    // Open the timer page in a new tab
+                    window.open(timerPageUrl, '_blank');
+                }
+            }
+        });
+    });
+    </script>
+</body>
+</html>
