@@ -3,62 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting...</title>
+    <title>Loading Content...</title>
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
-        #background-iframe {
-            position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%; border: none; z-index: 1;
-        }
-        #timer-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 2;
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            background-color: #121212;
+            color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
-            color: white;
-            font-family: sans-serif;
-            text-shadow: 2px 2px 4px #000000;
+            height: 100vh;
+            text-align: center;
         }
-        #timer-overlay h1 { font-size: 28px; }
-        #timer-overlay #timer { font-size: 72px; font-weight: bold; }
+        .container {
+            padding: 40px;
+            background-color: #1a1a1a;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 90%;
+        }
+        h1 {
+            font-size: 28px;
+            margin-top: 0;
+            color: #f0f0f0;
+        }
+        p {
+            font-size: 18px;
+            color: #ccc;
+        }
+        .timer-display {
+            font-size: 80px;
+            font-weight: bold;
+            color: #03a9f4; /* चमकदार नीला रंग */
+            margin: 20px 0;
+        }
+        .small-text {
+            font-size: 14px;
+            color: #888;
+            margin-top: 25px;
+        }
     </style>
 </head>
 <body>
-    <iframe id="background-iframe" src=""></iframe>
-    <div id="timer-overlay">
-        <h1>You will be redirected in...</h1>
-        <div id="timer">15</div>
+
+    <div class="container">
+        <h1 id="main-heading">Please Wait</h1>
+        <p id="sub-heading">Your content is being prepared and will open shortly.</p>
+        <div id="timer" class="timer-display">15</div>
+        <p class="small-text">Two new tabs will open automatically. If they don't, please disable your pop-up blocker.</p>
     </div>
+
     <script>
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const mainLink = decodeURIComponent(urlParams.get('main_link'));
-            const extraLink = decodeURIComponent(urlParams.get('extra_link'));
+    document.addEventListener('DOMContentLoaded', () => {
+        const timerElement = document.getElementById('timer');
+        const mainHeading = document.getElementById('main-heading');
+        const subHeading = document.getElementById('sub-heading');
+        
+        // --- उलटी गिनती की सेटिंग्स ---
+        let countdown = 15; // आपकी मांग के अनुसार 15 सेकंड से उलटी गिनती
 
-            if (!mainLink || !extraLink) {
-                document.getElementById('timer-overlay').innerHTML = '<h1>Error: Invalid Link.</h1>';
-                return;
+        // URL से लिंक प्राप्त करें
+        const urlParams = new URLSearchParams(window.location.search);
+        const mainLink = urlParams.get('main_link');
+        const extraLink = urlParams.get('extra_link');
+
+        // जांचें कि लिंक मौजूद हैं या नहीं। यदि नहीं, तो एक एरर दिखाएं।
+        if (!mainLink || !extraLink) {
+            mainHeading.textContent = "Error";
+            subHeading.textContent = "Content link not found. Please go back and try again.";
+            timerElement.style.display = 'none'; // टाइमर छिपा दें
+            return;
+        }
+
+        // पेज पर प्रारंभिक टाइमर मान सेट करें
+        timerElement.textContent = countdown;
+
+        const interval = setInterval(() => {
+            countdown--;
+            timerElement.textContent = countdown;
+
+            if (countdown <= 0) {
+                clearInterval(interval);
+                mainHeading.textContent = "Done!";
+                subHeading.textContent = "Your content has opened in new tabs.";
+                timerElement.textContent = "✔️";
+                
+                // महत्वपूर्ण: पॉप-अप ब्लॉकर्स इन्हें खुलने से रोक सकते हैं।
+                // यह एक ब्राउज़र सुरक्षा सुविधा है और इसे कोड से बायपास नहीं किया जा सकता है।
+                window.open(mainLink, '_blank');
+                window.open(extraLink, '_blank');
             }
-
-            // Load the "extra link" in the background iframe
-            document.getElementById('background-iframe').src = extraLink;
-
-            let timeLeft = 15;
-            const timerElement = document.getElementById('timer');
-
-            const countdown = setInterval(function() {
-                timeLeft--;
-                timerElement.textContent = timeLeft;
-                if (timeLeft <= 0) {
-                    clearInterval(countdown);
-                    // Redirect to the "main link" (the full-size photo)
-                    window.location.href = mainLink;
-                }
-            }, 1000);
-        };
+        }, 1000); // हर 1 सेकंड (1000 मिलीसेकंड) में अपडेट करें
+    });
     </script>
+
 </body>
 </html>
