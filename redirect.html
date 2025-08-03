@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loading Content...</title>
+    <title>Please Wait...</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -50,9 +50,9 @@
 
     <div class="container">
         <h1 id="main-heading">Please Wait</h1>
-        <p id="sub-heading">Your content is being prepared and will open shortly.</p>
+        <p id="sub-heading">You will be redirected to the content in a moment.</p>
         <div id="timer" class="timer-display">15</div>
-        <p class="small-text">Two new tabs will open automatically. If they don't, please disable your pop-up blocker.</p>
+        <p class="small-text">You will be automatically sent to the destination page after the countdown.</p>
     </div>
 
     <script>
@@ -61,23 +61,18 @@
         const mainHeading = document.getElementById('main-heading');
         const subHeading = document.getElementById('sub-heading');
         
-        // --- उलटी गिनती की सेटिंग्स ---
-        let countdown = 15; // आपकी मांग के अनुसार 15 सेकंड से उलटी गिनती
+        let countdown = 15;
 
-        // URL से लिंक प्राप्त करें
         const urlParams = new URLSearchParams(window.location.search);
-        const mainLink = urlParams.get('main_link');
-        const extraLink = urlParams.get('extra_link');
+        const finalLink = urlParams.get('extra_link');
 
-        // जांचें कि लिंक मौजूद हैं या नहीं। यदि नहीं, तो एक एरर दिखाएं।
-        if (!mainLink || !extraLink) {
+        if (!finalLink) {
             mainHeading.textContent = "Error";
             subHeading.textContent = "Content link not found. Please go back and try again.";
-            timerElement.style.display = 'none'; // टाइमर छिपा दें
+            timerElement.style.display = 'none';
             return;
         }
 
-        // पेज पर प्रारंभिक टाइमर मान सेट करें
         timerElement.textContent = countdown;
 
         const interval = setInterval(() => {
@@ -86,16 +81,12 @@
 
             if (countdown <= 0) {
                 clearInterval(interval);
-                mainHeading.textContent = "Done!";
-                subHeading.textContent = "Your content has opened in new tabs.";
-                timerElement.textContent = "✔️";
-                
-                // महत्वपूर्ण: पॉप-अप ब्लॉकर्स इन्हें खुलने से रोक सकते हैं।
-                // यह एक ब्राउज़र सुरक्षा सुविधा है और इसे कोड से बायपास नहीं किया जा सकता है।
-                window.open(mainLink, '_blank');
-                window.open(extraLink, '_blank');
+                mainHeading.textContent = "Redirecting...";
+                subHeading.textContent = "Please wait...";
+                timerElement.textContent = "🚀";
+                window.location.href = finalLink;
             }
-        }, 1000); // हर 1 सेकंड (1000 मिलीसेकंड) में अपडेट करें
+        }, 1000);
     });
     </script>
 
